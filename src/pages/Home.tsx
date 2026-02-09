@@ -54,28 +54,28 @@ const heroImages = [
   '/products/img5.jpeg',
 ]
 
-const sellItems = [
-  {
-    title: 'TV & Home Theatre',
-    desc: 'LED, Smart TV, soundbar aur setup support.',
-    action: 'View TVs',
-  },
-  {
-    title: 'Mobiles & Accessories',
-    desc: 'New models, chargers, earphones, covers.',
-    action: 'View Mobiles',
-  },
-  {
-    title: 'Home Appliances',
-    desc: 'Fridge, washing machine, mixer-grinder.',
-    action: 'View Appliances',
-  },
-  {
-    title: 'Repair Support',
-    desc: 'Local technicians ke saath fast service.',
-    action: 'Call Support',
-  },
-]
+// const sellItems = [
+//   {
+//     title: 'TV & Home Theatre',
+//     desc: 'LED, Smart TV, soundbar aur setup support.',
+//     action: 'View TVs',
+//   },
+//   {
+//     title: 'Mobiles & Accessories',
+//     desc: 'New models, chargers, earphones, covers.',
+//     action: 'View Mobiles',
+//   },
+//   {
+//     title: 'Home Appliances',
+//     desc: 'Fridge, washing machine, mixer-grinder.',
+//     action: 'View Appliances',
+//   },
+//   {
+//     title: 'Repair Support',
+//     desc: 'Local technicians ke saath fast service.',
+//     action: 'Call Support',
+//   },
+// ]
 
 const facilities = [
   {
