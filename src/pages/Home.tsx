@@ -46,6 +46,14 @@ const carouselItems = [
   },
 ]
 
+const heroImages = [
+  '/products/img1.jpeg',
+  '/products/img2.jpeg',
+  '/products/img3.jpeg',
+  '/products/img4.jpeg',
+  '/products/img5.jpeg',
+]
+
 const sellItems = [
   {
     title: 'TV & Home Theatre',
@@ -88,6 +96,7 @@ const facilities = [
 export default function Home() {
   const reduceMotion = useReducedMotion()
   const [activeSlide, setActiveSlide] = useState(0)
+  const [heroSlide, setHeroSlide] = useState(0)
 
   const heroAnimation = reduceMotion
     ? {}
@@ -114,25 +123,46 @@ export default function Home() {
     return () => clearInterval(timer)
   }, [reduceMotion])
 
+  useEffect(() => {
+    if (reduceMotion) return
+    const timer = setInterval(() => {
+      setHeroSlide((prev) => (prev + 1) % heroImages.length)
+    }, 4500)
+    return () => clearInterval(timer)
+  }, [reduceMotion])
+
   return (
     <div className="space-y-16 pb-16 text-white">
       <section className="pt-0">
         <div className="container-pad space-y-4 md:hidden">
           <h2 className="text-2xl font-bold">Featured Offers</h2>
-          <div className="grid gap-4">
-            {carouselItems.map((item) => (
-              <div key={item.id} className="surface overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="h-44 w-full object-cover"
-                  loading="lazy"
-                />
-                <div className="p-4">
-                  <p className="text-lg font-semibold">{item.title}</p>
-                  <p className="mt-1 text-sm text-white/70">{item.subtitle}</p>
-                </div>
-              </div>
+          <div className="surface overflow-hidden">
+            <img
+              src={carouselItems[activeSlide].image}
+              alt={carouselItems[activeSlide].title}
+              className="h-48 w-full object-cover"
+              loading="lazy"
+            />
+            <div className="p-4">
+              <p className="text-lg font-semibold">
+                {carouselItems[activeSlide].title}
+              </p>
+              <p className="mt-1 text-sm text-white/70">
+                {carouselItems[activeSlide].subtitle}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center justify-center gap-2 pb-2">
+            {carouselItems.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setActiveSlide(index)}
+                className={`h-2 w-8 rounded-full transition ${
+                  index === activeSlide ? 'bg-brand' : 'bg-white/30'
+                }`}
+                aria-label={`Go to ${item.title}`}
+              />
             ))}
           </div>
         </div>
@@ -203,7 +233,63 @@ export default function Home() {
             Genuine products, seedha market price aur friendly service. TV, Mobile,
             Appliances sab ek hi jagah.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
+          
+        </motion.div>
+        <motion.div {...heroAnimation} className="surface relative overflow-hidden p-4">
+          <motion.img
+            key={heroImages[heroSlide]}
+            src={heroImages[heroSlide]}
+            alt="Shop showcase"
+            className={
+              heroSlide === 0
+                ? 'h-64 w-full rounded-xl object-cover object-top sm:h-72 md:h-80'
+                : 'h-64 w-full rounded-xl object-cover sm:h-72 md:h-80'
+            }
+            loading="lazy"
+            initial={reduceMotion ? {} : { opacity: 0.4, scale: 1.02 }}
+            animate={reduceMotion ? {} : { opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          />
+          <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-white/10" />
+          <div className="absolute inset-y-0 left-3 flex items-center">
+            <button
+              type="button"
+              onClick={() =>
+                setHeroSlide((prev) =>
+                  prev === 0 ? heroImages.length - 1 : prev - 1
+                )
+              }
+              className="rounded-full bg-black/40 px-3 py-2 text-white/90 transition hover:bg-black/60"
+              aria-label="Previous image"
+            >
+              <span className="text-lg">&lt;</span>
+            </button>
+          </div>
+          <div className="absolute inset-y-0 right-3 flex items-center">
+            <button
+              type="button"
+              onClick={() => setHeroSlide((prev) => (prev + 1) % heroImages.length)}
+              className="rounded-full bg-black/40 px-3 py-2 text-white/90 transition hover:bg-black/60"
+              aria-label="Next image"
+            >
+              <span className="text-lg">&gt;</span>
+            </button>
+          </div>
+          <div className="absolute bottom-3 left-0 right-0 flex items-center justify-center gap-2">
+            {heroImages.map((img, index) => (
+              <button
+                key={img}
+                type="button"
+                onClick={() => setHeroSlide(index)}
+                className={`h-2 w-6 rounded-full transition ${
+                  index === heroSlide ? 'bg-brand' : 'bg-white/30'
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+        </motion.div>
+        {/* <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
             <div className="surface px-4 py-3">
               <p className="font-semibold">Same-day delivery</p>
               <p className="text-xs text-white/60">Town limit ke andar</p>
@@ -212,19 +298,10 @@ export default function Home() {
               <p className="font-semibold">Installation support</p>
               <p className="text-xs text-white/60">Trained team se</p>
             </div>
-          </div>
-        </motion.div>
-        <motion.div {...heroAnimation} className="surface p-6">
-          <img
-            src="/shop-hero.svg"
-            alt="Shop front illustration"
-            className="rounded-xl"
-            loading="lazy"
-          />
-        </motion.div>
+          </div> */}
       </section>
 
-      <section id="sell" className="container-pad">
+      {/* <section id="sell" className="container-pad">
         <motion.div {...reveal}>
           <h2 className="text-3xl font-bold">What We Sell</h2>
           <p className="mt-2 text-white/70">
@@ -252,11 +329,11 @@ export default function Home() {
             </motion.button>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section className="container-pad">
         <motion.div {...reveal}>
-          <h2 className="text-3xl font-bold">Products & Categories</h2>
+          <h2 className="text-3xl font-bold">What We Sell</h2>
           <p className="mt-2 text-white/70">
             WhatsApp par enquiry karke latest offers aur availability confirm
             kar sakte hain.
@@ -274,15 +351,19 @@ export default function Home() {
                     whileHover={reduceMotion ? undefined : { scale: 1.02, y: -4 }}
                     whileTap={reduceMotion ? undefined : { scale: 0.99 }}
                     transition={{ duration: 0.2 }}
-                    className="surface flex h-full flex-col gap-4 p-5 transition hover:shadow-lg"
+                    className="surface group relative flex h-full flex-col gap-4 overflow-hidden p-5 transition hover:shadow-lg"
                   >
+                    <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
+                      <div className="absolute -right-12 -top-12 h-28 w-28 rounded-full bg-brand/20 blur-2xl" />
+                      <div className="absolute -left-12 bottom-0 h-24 w-24 rounded-full bg-accent/20 blur-2xl" />
+                    </div>
                     <img
                       src={item.image}
                       alt={item.name}
                       className={
                         category.id === 'tv'
-                          ? 'h-44 w-full rounded-xl bg-white/5 object-cover'
-                          : 'h-44 w-full rounded-xl bg-white/5 object-contain p-0'
+                          ? 'h-44 w-full rounded-xl bg-white/5 object-cover transition duration-300 group-hover:scale-[1.03]'
+                          : 'h-44 w-full rounded-xl bg-white/5 object-contain p-0 transition duration-300 group-hover:scale-[1.03]'
                       }
                       loading="lazy"
                     />
@@ -305,16 +386,17 @@ export default function Home() {
                     </div>
                     <a
                       href={
-                        'https://wa.me/919793264108?text=' +
+                        'https://wa.me/919935136131?text=' +
                         encodeURIComponent(
                           `Namaste! ${item.name} ke details chahiye.`
                         )
                       }
-                      className="mt-auto inline-flex items-center justify-center rounded-full bg-brand px-4 py-2 text-sm font-semibold text-black transition hover:bg-brandDark"
+                      className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-black transition hover:bg-brandDark"
                       target="_blank"
                       rel="noreferrer"
                     >
                       WhatsApp Enquiry
+                      <span className="transition group-hover:translate-x-1">→</span>
                     </a>
                   </motion.article>
                 ))}
@@ -365,7 +447,7 @@ export default function Home() {
                 href="tel:+919793264108"
                 className="mt-2 inline-flex items-center gap-2 text-lg font-bold text-brand"
               >
-                +91 97932 64108
+                +91 9935136131
               </a>
               <p className="mt-2 text-sm text-white/60">10 AM - 8 PM daily</p>
             </div>

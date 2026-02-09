@@ -42,7 +42,7 @@ export default function Contact() {
               href="tel:+919876543210"
               className="mt-2 inline-flex items-center gap-2 text-lg font-bold text-brand"
             >
-              +91 98765 43210
+              +91 9935136131
             </a>
             <p className="mt-2 text-sm text-black/60">10 AM - 8 PM daily</p>
           </div>

@@ -28,15 +28,19 @@ export default function Products() {
                 whileHover={reduceMotion ? undefined : { scale: 1.02, y: -4 }}
                 whileTap={reduceMotion ? undefined : { scale: 0.99 }}
                 transition={{ duration: 0.2 }}
-                className="surface flex h-full flex-col gap-4 p-5 transition hover:shadow-lg"
+                className="surface group relative flex h-full flex-col gap-4 overflow-hidden p-5 transition hover:shadow-lg"
               >
+                <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
+                  <div className="absolute -right-12 -top-12 h-28 w-28 rounded-full bg-brand/20 blur-2xl" />
+                  <div className="absolute -left-12 bottom-0 h-24 w-24 rounded-full bg-accent/20 blur-2xl" />
+                </div>
                 <img
                   src={item.image}
                   alt={item.name}
                   className={
                     category.id === 'tv'
-                      ? 'h-44 w-full rounded-xl bg-white/5 object-cover'
-                      : 'h-44 w-full rounded-xl bg-white/5 object-contain p-0'
+                      ? 'h-44 w-full rounded-xl bg-white/5 object-cover transition duration-300 group-hover:scale-[1.03]'
+                      : 'h-44 w-full rounded-xl bg-white/5 object-contain p-0 transition duration-300 group-hover:scale-[1.03]'
                   }
                   loading="lazy"
                 />
@@ -51,11 +55,12 @@ export default function Products() {
                     'https://wa.me/919876543210?text=' +
                     encodeURIComponent(`Namaste! ${item.name} ke details chahiye.`)
                   }
-                  className="mt-auto inline-flex items-center justify-center rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brandDark"
+                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-black transition hover:bg-brandDark"
                   target="_blank"
                   rel="noreferrer"
                 >
                   WhatsApp Enquiry
+                  <span className="transition group-hover:translate-x-1">→</span>
                 </a>
               </motion.article>
             ))}
